@@ -44,9 +44,9 @@ public class Solution {
         public void writeExternal(ObjectOutput out) throws IOException {
             out.writeObject(mother);
             out.writeObject(father);
-            out.writeChars(firstName);
-            out.writeChars(lastName);
-            out.writeInt(age);
+            out.writeObject(firstName);
+            out.writeObject(lastName);
+            out.writeObject(age);
             out.writeObject(children);
         }
 
@@ -54,9 +54,9 @@ public class Solution {
         public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
             mother = (Person) in.readObject();
             father = (Person) in.readObject();
-            firstName = in.readLine();
-            lastName = in.readLine();
-            age = in.readInt();
+            firstName = (String) in.readObject();
+            lastName = (String) in.readObject();
+            age = (int) in.readObject();
             children = (List<Person>) in.readObject();
         }
     }
