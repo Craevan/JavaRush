@@ -7,12 +7,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-/* 
+/*
 CRUD
 */
 
 public class Solution {
     private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+    private static final SimpleDateFormat sdfOut = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
     public static List<Person> allPeople = new ArrayList<Person>();
 
     static {
@@ -27,10 +28,13 @@ public class Solution {
                 create(args[1], args[2], args[3]);
                 break;
             case ("-r") :
+                read(Integer.parseInt(args[1]));
                 break;
             case ("-u") :
+                update(Integer.parseInt(args[1]), args[2], args[3], args[4]);
                 break;
             case ("-d") :
+                delete(Integer.parseInt(args[1]));
                 break;
         }
 
@@ -60,6 +64,12 @@ public class Solution {
 
     }
 
+    private static void read(int id) {
+        Person person = allPeople.get(id);
+        String gender = person.getSex() == Sex.MALE ? "м" : "ж";
+        System.out.println(person.getName() + " " + gender + " " + sdfOut.format(person.getBirthDate()));
+    }
+
     private static void update(int id, String name, String sex, String date) {
         Date bd = null;
         try {
@@ -76,7 +86,14 @@ public class Solution {
             person.setSex(Sex.FEMALE);
 
         allPeople.set(id, person);
-
-
     }
+
+    private static void delete(int id) {
+        Person person = allPeople.get(id);
+        person.setBirthDate(null);
+        person.setName(null);
+        person.setSex(null);
+        allPeople.set(id, person);
+    }
+
 }
