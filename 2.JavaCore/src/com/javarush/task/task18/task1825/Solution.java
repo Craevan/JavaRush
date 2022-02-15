@@ -18,17 +18,18 @@ public class Solution {
         reader.close();
         Collections.sort(parts);
         File file = new File(getFileName(parts.get(0)));
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
-        for (String s : parts) {
-            reader = new BufferedReader(new FileReader(s));
-            while (reader.ready()) {
-                writer.write(reader.readLine());
+
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            for (String s : parts) {
+                try (FileInputStream fis = new FileInputStream(s)) {
+                    byte[] buffer = new byte[fis.available()];
+                    while (fis.available() > 0) {
+                        int readedBytes = fis.read(buffer);
+                        fos.write(buffer, 0, readedBytes);
+                    }
+                }
             }
-            reader.close();
-            writer.close();
         }
-        reader.close();
-        writer.close();
     }
 
     private static String getFileName(String s) {
