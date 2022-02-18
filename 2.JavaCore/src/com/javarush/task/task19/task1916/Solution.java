@@ -2,6 +2,7 @@ package com.javarush.task.task19.task1916;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /* 
@@ -12,8 +13,8 @@ public class Solution {
     public static List<LineItem> lines = new ArrayList<LineItem>();
 
     public static void main(String[] args) {
-        List<String> stringList_1 = new ArrayList<>();
-        List<String> stringList_2 = new ArrayList<>();
+        ArrayList<String> stringList_1 = new ArrayList<>();
+        ArrayList<String> stringList_2 = new ArrayList<>();
 
         try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
             String fileName_1 = consoleReader.readLine();
@@ -34,49 +35,47 @@ public class Solution {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (stringList_1.size() >= stringList_2.size())
-            lineCompare(stringList_1, stringList_2);
-        else
-            lineCompare(stringList_2, stringList_1);
-        //
+
+
+        lineCompare(stringList_1, stringList_2);
+
         for (LineItem line : lines) {
             System.out.println(line.type + " " + line.line);
         }
     }
 
-    private static void lineCompare(List<String> arrayList_1, List<String> arrayList_2) {
+    private static void lineCompare(ArrayList<String> list_1, ArrayList<String> list_2) {
         int index = 0;
-        for (String s : arrayList_1) {
-            for (int i = index; i < arrayList_2.size(); i++) {
-                String s2 = arrayList_2.get(i);
-                if (s2.equals(s)) {
-                    lines.add(new LineItem(Type.SAME, s));
-                    index = i + 1;
-                    break;
-                }
-                else {
-                    int next = i + 1;
-                    if (next < arrayList_2.size()) {
-                        String nextLine = arrayList_2.get(next);
-                        if (!s.equals(nextLine)) {
-                            lines.add(new LineItem(Type.REMOVED, s));
-                            break;
-                        }
-                        else {
-                            lines.add(new LineItem(Type.ADDED, s2));
-//                            lines.add(new LineItem(Type.SAME, s));
-                        }
-                    }
-                    else {
-                        lines.add(new LineItem(Type.REMOVED, s));
-                        break;
-                    }
-                }
+        int nextIndex = index + 1;
+        String current = null;
+        String next = null;
+        for (String s1 : list_1) {
+            if (index < list_2.size())
+                current = list_2.get(index);
+            if (nextIndex < list_2.size())
+                next = list_2.get(nextIndex);
+            if (s1.equals(current)) {
+                lines.add(new LineItem(Type.SAME, s1));
+                index++;
+                nextIndex++;
+            }
+            else if (s1.equals(next)) {
+                lines.add(new LineItem(Type.ADDED, current));
+                lines.add(new LineItem(Type.SAME, next));
+                index = index + 2;
+                nextIndex = nextIndex + 2;
+            }
+            else {
+                lines.add(new LineItem(Type.REMOVED, s1));
+            }
+        }
+        if (index < list_2.size()) {
+            for (int i = index; i < list_2.size(); i++) {
+                lines.add(new LineItem(Type.ADDED, list_2.get(i)));
 
             }
-            if (index >= arrayList_2.size())
-                lines.add(new LineItem(Type.REMOVED, s));
         }
+
     }
 
 
