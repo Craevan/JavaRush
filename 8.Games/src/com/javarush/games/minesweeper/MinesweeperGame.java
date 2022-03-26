@@ -2,18 +2,20 @@ package com.javarush.games.minesweeper;
 
 import com.javarush.engine.cell.Color;
 import com.javarush.engine.cell.Game;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class MinesweeperGame extends Game {
+
     private static final int SIDE = 9;
     private static final String MINE = "\uD83D\uDCA3";
-    private static final String FLAG = "\uD83D\uDEA9";
+    private static final String FLAG = "\u2691";
     private GameObject[][] gameField = new GameObject[SIDE][SIDE];
     private int countMinesOnField;
     private int countFlags;
     private boolean isGameStopped;
+    private int countClosedTiles = SIDE * SIDE;
+    private int score = 0;
 
     @Override
     public void initialize() {
@@ -22,9 +24,10 @@ public class MinesweeperGame extends Game {
     }
 
     private void createGame() {
-        isGameStopped = false;
+//        isGameStopped = false;
         for (int y = 0; y < SIDE; y++) {
             for (int x = 0; x < SIDE; x++) {
+                setCellValue(x, y, "");
                 boolean isMine = getRandomNumber(10) < 1;
                 if (isMine) {
                     countMinesOnField++;
@@ -75,6 +78,14 @@ public class MinesweeperGame extends Game {
             return;
         }
         go.isOpen = true;
+        --countClosedTiles;
+        if (!go.isMine) {
+            score += 5;
+            setScore(score);
+            if (countClosedTiles == countMinesOnField)
+                win();
+
+        }
         setCellColor(x, y, Color.GREEN);
 
         if (go.isMine) {
@@ -114,13 +125,32 @@ public class MinesweeperGame extends Game {
 
     }
 
+    private void win() {
+        isGameStopped = true;
+        showMessageDialog(Color.BEIGE, "!!!WIN!!!", Color.BLUE, 100);
+    }
+
     private void gameOver() {
         isGameStopped = true;
         showMessageDialog(Color.BEIGE, "Game Over", Color.BLUE, 100);
     }
 
+    private void restart() {
+        isGameStopped = false;
+        countClosedTiles = SIDE * SIDE;
+        score = 0;
+        countMinesOnField = 0;
+        setScore(score);
+        createGame();
+
+    }
+
     @Override
     public void onMouseLeftClick(int x, int y) {
+        if (isGameStopped) {
+            restart();
+            return;
+        }
         openTile(x, y);
     }
 
