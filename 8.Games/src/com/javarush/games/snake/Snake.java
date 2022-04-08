@@ -7,6 +7,9 @@ import java.util.List;
 
 public class Snake {
 
+    public boolean isAlive = true;
+
+    private Direction direction = Direction.LEFT;
     private static final String HEAD_SIGN = "\\uD83D\\uDC7E";
     private static final String BODY_SIGN = "\\u26AB";
 
@@ -19,13 +22,25 @@ public class Snake {
         snakeParts.add(new GameObject(x + 2, y));
     }
 
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
     public void draw(Game game) {
 
         for (GameObject gameObject : snakeParts) {
-            if (gameObject.equals(snakeParts.get(0)))
-                game.setCellValue(gameObject.x, gameObject.y, HEAD_SIGN);
-            else
-                game.setCellValue(gameObject.x, gameObject.y, BODY_SIGN);
+            if (gameObject.equals(snakeParts.get(0))) {
+                if (isAlive)
+                    game.setCellValueEx(gameObject.x, gameObject.y, Color.NONE, HEAD_SIGN, Color.BLACK, 75);
+                else
+                    game.setCellValueEx(gameObject.x, gameObject.y, Color.NONE, HEAD_SIGN, Color.RED, 75);
+            }
+            else {
+                if (isAlive)
+                    game.setCellValueEx(gameObject.x, gameObject.y, Color.NONE, BODY_SIGN, Color.BLACK, 75);
+                else
+                    game.setCellValueEx(gameObject.x, gameObject.y, Color.NONE, BODY_SIGN, Color.RED, 75);
+            }
         }
 
     }
