@@ -26,6 +26,10 @@ public class Snake {
         this.direction = direction;
     }
 
+    public void move() {
+
+    }
+
     public void draw(Game game) {
 
         for (GameObject gameObject : snakeParts) {
