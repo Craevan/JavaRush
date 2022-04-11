@@ -27,7 +27,14 @@ public class Snake {
     }
 
     public void move() {
+        GameObject head = createNewHead();
 
+        if (head.x >= SnakeGame.WIDTH || head.x < 0 || head.y >= SnakeGame.HEIGHT || head.y < 0) {
+            isAlive = false;
+            return;
+        }
+        snakeParts.add(0, head);
+        removeTail();
     }
 
     public GameObject createNewHead() {
