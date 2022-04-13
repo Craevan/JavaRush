@@ -10,8 +10,8 @@ public class Snake {
     public boolean isAlive = true;
 
     private Direction direction = Direction.LEFT;
-    private static final String HEAD_SIGN = "\\uD83D\\uDC7E";
-    private static final String BODY_SIGN = "\\u26AB";
+    private static final String HEAD_SIGN = "\uD83D\uDC38";
+    private static final String BODY_SIGN = "◍";
 
     private final List<GameObject> snakeParts;
 
@@ -23,7 +23,8 @@ public class Snake {
     }
 
     public void setDirection(Direction direction) {
-        this.direction = direction;
+        if (this.direction != direction.getOpposite())
+            this.direction = direction;
     }
 
     public void move() {
