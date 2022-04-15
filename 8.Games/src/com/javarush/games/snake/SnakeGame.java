@@ -6,6 +6,7 @@ public class SnakeGame extends Game  {
 
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
+    public static final int GOAL = 28;
 
     private Snake snake;
     private Apple apple;
@@ -42,6 +43,12 @@ public class SnakeGame extends Game  {
         showMessageDialog(Color.NONE, "GAME OVER", Color.CORAL, 100);
     }
 
+    private void win() {
+        stopTurnTimer();
+        isGameStopped = true;
+        showMessageDialog(Color.NONE, "YOU WIN", Color.CORAL, 100);
+    }
+
     @Override
     public void initialize() {
         setScreenSize(WIDTH, HEIGHT);
@@ -56,6 +63,9 @@ public class SnakeGame extends Game  {
 
         if (!snake.isAlive)
             gameOver();
+
+        if (SnakeGame.GOAL < snake.getLength())
+            win();
         drawScene();
     }
 
