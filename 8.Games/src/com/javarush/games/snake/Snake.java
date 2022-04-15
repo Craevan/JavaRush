@@ -34,6 +34,10 @@ public class Snake {
             isAlive = false;
             return;
         }
+        if (checkCollision(head)) {
+            isAlive = false;
+            return;
+        }
         snakeParts.add(0, head);
         if (head.x == apple.x && head.y == apple.y)
             apple.isAlive = false;
@@ -77,7 +81,14 @@ public class Snake {
                     game.setCellValueEx(gameObject.x, gameObject.y, Color.NONE, BODY_SIGN, Color.RED, 75);
             }
         }
+    }
 
+    public boolean checkCollision(GameObject go) {
+        for (GameObject tmp : snakeParts) {
+            if (tmp.x == go.x && tmp.y == go.y)
+                return true;
+        }
+        return false;
     }
 
 }
