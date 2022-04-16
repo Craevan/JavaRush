@@ -6,7 +6,7 @@ public class SnakeGame extends Game  {
 
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
-    public static final int GOAL = 28;
+    private static final int GOAL = 28;
 
     private Snake snake;
     private Apple apple;
@@ -48,6 +48,7 @@ public class SnakeGame extends Game  {
         isGameStopped = true;
         showMessageDialog(Color.NONE, "YOU WIN", Color.CORAL, 100);
     }
+
 
     @Override
     public void initialize() {
