@@ -34,7 +34,13 @@ public class SnakeGame extends Game  {
     }
 
     private void createNewApple() {
-        apple = new Apple(getRandomNumber(WIDTH), getRandomNumber(HEIGHT));
+        while (true) {
+            apple = new Apple(getRandomNumber(WIDTH), getRandomNumber(HEIGHT));
+            boolean check = snake.checkCollision(apple);
+            if (!check) {
+                break;
+            }
+        }
     }
 
     private void gameOver() {
@@ -84,6 +90,10 @@ public class SnakeGame extends Game  {
                 break;
             case DOWN:
                 snake.setDirection(Direction.DOWN);
+                break;
+            case SPACE:
+                if (isGameStopped)
+                    createGame();
                 break;
         }
     }
