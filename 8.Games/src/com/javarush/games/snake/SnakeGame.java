@@ -11,9 +11,12 @@ public class SnakeGame extends Game  {
     private Snake snake;
     private Apple apple;
     private int turnDelay;
+    private int score;
     private boolean isGameStopped;
 
     private void createGame() {
+        score = 0;
+        setScore(score);
         isGameStopped = false;
         snake = new Snake(WIDTH / 2, HEIGHT / 2);
 //        apple = new Apple(5, 5); // теперь apple создается в методе createNewApple()
@@ -65,8 +68,13 @@ public class SnakeGame extends Game  {
     @Override
     public void onTurn(int step) {
         snake.move(apple);
-        if (!apple.isAlive)
+        if (!apple.isAlive) {
             createNewApple();
+            score += 5;
+            setScore(score);
+            turnDelay -= 10;
+            setTurnTimer(turnDelay);
+        }
 
         if (!snake.isAlive)
             gameOver();
