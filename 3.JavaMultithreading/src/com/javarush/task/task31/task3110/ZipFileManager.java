@@ -11,70 +11,62 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class ZipFileManager {
-
+    // Полный путь zip файла
     private final Path zipFile;
 
-    public ZipFileManager(final Path zip) {
-        this.zipFile = zip;
+    public ZipFileManager(Path zipFile) {
+        this.zipFile = zipFile;
     }
 
-    public void createZip(final Path source) throws Exception {
-        /*
-        //создаем новый поток архива
-        try(ZipOutputStream zos = new ZipOutputStream(Files.newOutputStream(zipFile))) {
-            //получаем имя файла из пути
-            String fileName = source.getFileName().toString();
-            // Создаем новую сущность Entry (элемент архива)
-            ZipEntry zEntry = new ZipEntry(fileName);
-            //Кладем элемент архива в архив
-            zos.putNextEntry(zEntry);
-            //Переписываем данные из файла в поток архива
-                //создаем поток InputStream
-            try (InputStream is = Files.newInputStream(source)) {
-                byte[] buffer = new byte[1024];
-                int length;
-                while ((length = is.read(buffer)) > 0) {
-                    zos.write(buffer, 0, length);
-                }
-            }
-            // Закрываем элемент архива у потока
-            zos.closeEntry();
+    public void createZip(Path source) throws Exception {
+        // Проверяем, существует ли директория, где будет создаваться архив
+        // При необходимости создаем ее
+        Path zipDirectory = zipFile.getParent();
+        if (Files.notExists(zipDirectory))
+            Files.createDirectories(zipDirectory);
 
-         */
+        // Создаем zip поток
+        try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile))) {
 
-        if (Files.notExists(zipFile.getParent())) {
-            Files.createDirectory(zipFile.getParent());
-        }
-
-        try (ZipOutputStream zos = new ZipOutputStream(Files.newOutputStream(zipFile))) {
-            if (Files.isRegularFile(source))
-                addNewZipEntry(zos, source.getParent(), source.getFileName());
-            else if (Files.isDirectory(source)) {
+            if (Files.isDirectory(source)) {
+                // Если архивируем директорию, то нужно получить список файлов в ней
                 FileManager fileManager = new FileManager(source);
                 List<Path> fileNames = fileManager.getFileList();
-                for (Path p : fileNames) {
-                    addNewZipEntry(zos, source, p);
-                }
-            } else throw new PathIsNotFoundException();
-        }
 
+                // Добавляем каждый файл в архив
+                for (Path fileName : fileNames)
+                    addNewZipEntry(zipOutputStream, source, fileName);
+
+            } else if (Files.isRegularFile(source)) {
+
+                // Если архивируем отдельный файл, то нужно получить его директорию и имя
+                addNewZipEntry(zipOutputStream, source.getParent(), source.getFileName());
+            } else {
+
+                // Если переданный source не директория и не файл, бросаем исключение
+                throw new PathIsNotFoundException();
+            }
+        }
     }
 
     private void addNewZipEntry(ZipOutputStream zipOutputStream, Path filePath, Path fileName) throws Exception {
-        try (InputStream is = Files.newInputStream(filePath.resolve(fileName))) {
-            ZipEntry zipEntry = new ZipEntry(fileName.toString());
-            zipOutputStream.putNextEntry(zipEntry);
-            copyData(is, zipOutputStream);
+        Path fullPath = filePath.resolve(fileName);
+        try (InputStream inputStream = Files.newInputStream(fullPath)) {
+            ZipEntry entry = new ZipEntry(fileName.toString());
+
+            zipOutputStream.putNextEntry(entry);
+
+            copyData(inputStream, zipOutputStream);
+
             zipOutputStream.closeEntry();
         }
     }
 
     private void copyData(InputStream in, OutputStream out) throws Exception {
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = in.read(buffer)) > 0) {
-            out.write(buffer, 0, length);
+        byte[] buffer = new byte[8 * 1024];
+        int len;
+        while ((len = in.read(buffer)) > 0) {
+            out.write(buffer, 0, len);
         }
     }
-
 }
