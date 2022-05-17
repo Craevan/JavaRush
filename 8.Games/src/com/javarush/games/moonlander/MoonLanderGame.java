@@ -13,6 +13,20 @@ public class MoonLanderGame extends Game {
     private boolean isLeftPressed;
     private boolean isRightPressed;
 
+    private void check() {
+
+    }
+
+    private void win() {
+
+    }
+
+    private void gameOver() {
+
+    }
+
+
+
     private void drawScene() {
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
@@ -49,6 +63,7 @@ public class MoonLanderGame extends Game {
     public void onTurn(int step) {
 //        super.onTurn(step);
         rocket.move(isUpPressed, isLeftPressed, isRightPressed);
+        check();
         drawScene();
     }
 
