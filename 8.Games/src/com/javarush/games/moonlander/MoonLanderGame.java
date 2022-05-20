@@ -9,20 +9,36 @@ public class MoonLanderGame extends Game {
 
     private Rocket rocket;
     private GameObject landscape;
+    private GameObject platform;
+
     private boolean isUpPressed;
     private boolean isLeftPressed;
     private boolean isRightPressed;
+    private boolean isGameStopped;
+    private int score;
 
     private void check() {
-
+        if (rocket.isCollision(landscape) && !(rocket.isCollision(platform) && rocket.isStopped())) {
+            gameOver();
+        }
+        if (rocket.isCollision(platform) && rocket.isStopped()) {
+            win();
+        }
     }
 
     private void win() {
-
+        rocket.land();
+        isGameStopped = true;
+        showMessageDialog(Color.ALICEBLUE, "YOU WIN", Color.AQUAMARINE, 36);
+        stopTurnTimer();
     }
 
     private void gameOver() {
-
+        rocket.crash();
+        isGameStopped = true;
+        score = 0;
+        showMessageDialog(Color.ALICEBLUE, "YOU LOOSE", Color.AQUAMARINE, 36);
+        stopTurnTimer();
     }
 
 
@@ -41,6 +57,8 @@ public class MoonLanderGame extends Game {
         isUpPressed  = false;
         isLeftPressed = false;
         isRightPressed = false;
+        isGameStopped = false;
+        score = 1000;
         createGameObjects();
         setTurnTimer(50);
         drawScene();
@@ -49,6 +67,7 @@ public class MoonLanderGame extends Game {
     private void createGameObjects() {
         rocket = new Rocket(WIDTH / 2.0, 0);
         landscape = new GameObject(0, 25, ShapeMatrix.LANDSCAPE);
+        platform = new GameObject(23, MoonLanderGame.HEIGHT - 1, ShapeMatrix.PLATFORM);
     }
 
     @Override
@@ -62,8 +81,12 @@ public class MoonLanderGame extends Game {
     @Override
     public void onTurn(int step) {
 //        super.onTurn(step);
+        if (score > 0) {
+            --score;
+        }
         rocket.move(isUpPressed, isLeftPressed, isRightPressed);
         check();
+        setScore(score);
         drawScene();
     }
 
@@ -80,6 +103,11 @@ public class MoonLanderGame extends Game {
             case RIGHT:
                 isRightPressed = true;
                 isLeftPressed = false;
+                break;
+            case SPACE:
+                if (isGameStopped) {
+                    createGame();
+                }
                 break;
         }
     }
