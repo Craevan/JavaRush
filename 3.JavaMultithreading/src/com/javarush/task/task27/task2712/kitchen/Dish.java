@@ -4,7 +4,17 @@ import java.util.StringJoiner;
 
 public enum Dish {
 
-    FISH, STEAK, SOUP, JUICE, WATER;
+    FISH(25), STEAK(30), SOUP(15), JUICE(5), WATER(3);
+
+    private final int duration;
+
+    Dish(int duration) {
+        this.duration = duration;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
 
     public static String allDishesToString() {
         StringJoiner joiner = new StringJoiner(", ");

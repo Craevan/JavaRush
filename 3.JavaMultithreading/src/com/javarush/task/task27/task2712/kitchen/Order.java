@@ -5,6 +5,7 @@ import com.javarush.task.task27.task2712.Tablet;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Order {
@@ -17,13 +18,26 @@ public class Order {
         dishes = ConsoleHelper.getAllDishesForOrder();
     }
 
+    public int getTotalCookingTime() {
+        return dishes.stream().mapToInt(Dish::getDuration).sum();
+    }
+
+    public boolean isEmpty() {
+        return dishes.isEmpty();
+    }
+
     @Override
     public String toString() {
         if (dishes.isEmpty()) {
             return "";
         }
         else {
-            return "Your order: " + Arrays.toString(dishes.toArray()) + " of Tablet" + tablet.toString();
+            return "Your order: " +
+                    Arrays.toString(dishes.toArray()) +
+                    " of Tablet" + tablet.toString() +
+                    ", cooking time " +
+                    getTotalCookingTime() +
+                    "min";
         }
     }
 
