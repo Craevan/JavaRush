@@ -36,6 +36,10 @@ public class Advertisement {
         if (hits <= 0) {
             throw new UnsupportedOperationException();
         }
-        --hits;
+        hits--;
+    }
+
+    public boolean isActive() {
+        return hits > 0;
     }
 }
