@@ -1,10 +1,15 @@
 package com.javarush.task.task27.task2712.statistic;
 
 import com.javarush.task.task27.task2712.kitchen.Cook;
+import com.javarush.task.task27.task2712.statistic.event.CookedOrderEventDataRow;
 import com.javarush.task.task27.task2712.statistic.event.EventDataRow;
 import com.javarush.task.task27.task2712.statistic.event.EventType;
+import com.javarush.task.task27.task2712.statistic.event.VideoSelectedEventDataRow;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class StatisticManager {
 
@@ -30,6 +35,37 @@ public class StatisticManager {
         cooks.add(cook);
     }
 
+    public Map<String, Long> getProfitFromVideoAd() {
+        Map<String, Long> profitByDay = new HashMap<>();
+        List<EventDataRow> eventList = statisticStorage.storage.get(EventType.SELECTED_VIDEOS);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        long total = 0L;
+        for (EventDataRow event : eventList) {
+            VideoSelectedEventDataRow videoEvent = (VideoSelectedEventDataRow) event;
+            total += videoEvent.getAmount();
+            profitByDay.merge(sdf.format(videoEvent.getDate()), videoEvent.getAmount(), Long::sum);
+        }
+        profitByDay.put("Total", total);
+        return profitByDay;
+    }
+
+    public Map<String, Map<String, Integer>> getCookWorkLoad() {
+        Map<String, Map<String, Integer>> workLoad = new HashMap<>();
+        List<EventDataRow> eventList = statisticStorage.storage.get(EventType.COOKED_ORDER);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        for (EventDataRow eventDataRow : eventList) {
+            CookedOrderEventDataRow cookEvent = (CookedOrderEventDataRow) eventDataRow;
+            String date = sdf.format(cookEvent.getDate());
+            Map<String, Integer> cookMap = workLoad.get(date);
+            if (cookMap == null) {
+                cookMap = new HashMap<>();
+            }
+            cookMap.merge(cookEvent.getCookName(), cookEvent.getCookingTimeSeconds(), Integer::sum);
+            workLoad.put(date, cookMap);
+        }
+        return workLoad;
+    }
+
     private class StatisticStorage {
 
         private final Map<EventType, List<EventDataRow>> storage = new HashMap<>();
@@ -38,6 +74,10 @@ public class StatisticManager {
             for (EventType type : EventType.values()) {
                 this.storage.put(type, new ArrayList<>());
             }
+        }
+
+        public Map<EventType, List<EventDataRow>> getStorage() {
+            return storage;
         }
 
         private void put(EventDataRow data) {

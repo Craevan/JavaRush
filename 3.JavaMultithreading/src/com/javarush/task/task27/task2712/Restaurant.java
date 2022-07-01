@@ -13,13 +13,13 @@ public class Restaurant {
 
         tablet.createOrder();
         tablet.createOrder();
-        tablet.createOrder();
-        tablet.createOrder();
+//        tablet.createOrder();
+//        tablet.createOrder();
 
         DirectorTablet directorTablet = new DirectorTablet();
-        directorTablet.printAdvertisementProfit();
+//        directorTablet.printAdvertisementProfit();
         directorTablet.printCookWorkloading();
-        directorTablet.printActiveVideoSet();
-        directorTablet.printArchivedVideoSet();
+//        directorTablet.printActiveVideoSet();
+//        directorTablet.printArchivedVideoSet();
     }
 }
