@@ -14,8 +14,12 @@ public class TestOrder extends Order {
     @Override
     protected void initDishes() throws IOException {
         dishes = new ArrayList<>();
-        dishes.add(Dish.SOUP);
-        dishes.add(Dish.FISH);
-        dishes.add(Dish.STEAK);
+
+        Dish[] values = Dish.values();
+        int countDishes = (int) (Math.random() * 3 + 2);
+        for (int i = 0; i < countDishes; i++) {
+            int dishIndex = (int) (Math.random() * values.length);
+            dishes.add(values[dishIndex]);
+        }
     }
 }

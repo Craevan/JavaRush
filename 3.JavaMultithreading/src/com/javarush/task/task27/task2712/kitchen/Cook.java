@@ -11,11 +11,18 @@ public class Cook extends Observable {
 
     private final String name;
 
+    private boolean busy;
+
     public Cook(final String name) {
         this.name = name;
     }
 
-    public void startCookingOrder(Order order) {
+    public boolean isBusy() {
+        return busy;
+    }
+
+    public void startCookingOrder(Order order) throws InterruptedException {
+        busy = true;
         StatisticManager.getInstance().register(new CookedOrderEventDataRow(
                 order.getTablet().toString(),
                 this.name,
@@ -25,6 +32,8 @@ public class Cook extends Observable {
         ConsoleHelper.writeMessage("Start cooking - " + order);
         setChanged();
         notifyObservers(order);
+        Thread.sleep(order.getTotalCookingTime() * 10);
+        busy = false;
     }
 
     @Override
