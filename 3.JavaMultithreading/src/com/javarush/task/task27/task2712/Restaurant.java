@@ -18,21 +18,19 @@ public class Restaurant {
         StatisticManager.getInstance().register(cook_1);
         StatisticManager.getInstance().register(cook_2);
         List<Tablet> tablets = new ArrayList<>();
-        Waiter waiter = new Waiter();
         for (int i = 0; i < 5; i++) {
             tablets.add(new Tablet(i));
-            tablets.get(i).addObserver(cook_1);
-            tablets.get(i).addObserver(cook_2);
         }
-        cook_1.addObserver(waiter);
-        cook_2.addObserver(waiter);
+        OrderManager orderManager = new OrderManager();
+
+        for (Tablet tablet :
+                tablets) {
+            tablet.addObserver(orderManager);
+        }
         Thread randomOrder = new Thread(new RandomOrderGeneratorTask(tablets, ORDER_CREATING_INTERVAL));
         randomOrder.start();
         Thread.sleep(1000);
         randomOrder.interrupt();
-
-
-
 
 
 //        Tablet tablet = new Tablet(5);
@@ -46,10 +44,10 @@ public class Restaurant {
 //        tablet.createOrder();
 //        tablet.createOrder();
 
-//        DirectorTablet directorTablet = new DirectorTablet();
-//        directorTablet.printAdvertisementProfit();
-//        directorTablet.printCookWorkloading();
-//        directorTablet.printActiveVideoSet();
-//        directorTablet.printArchivedVideoSet();
+        DirectorTablet directorTablet = new DirectorTablet();
+        directorTablet.printAdvertisementProfit();
+        directorTablet.printCookWorkloading();
+        directorTablet.printActiveVideoSet();
+        directorTablet.printArchivedVideoSet();
     }
 }
