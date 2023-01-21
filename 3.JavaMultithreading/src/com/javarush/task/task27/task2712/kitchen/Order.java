@@ -14,7 +14,7 @@ public class Order {
 
     public Order(Tablet tablet) throws IOException {
         this.tablet = tablet;
-        dishes = ConsoleHelper.getAllDishesForOrder();
+        initDishes();
     }
 
     public Tablet getTablet() {
@@ -32,6 +32,11 @@ public class Order {
     public boolean isEmpty() {
         return dishes.isEmpty();
     }
+
+    protected void initDishes() throws IOException {
+        dishes = ConsoleHelper.getAllDishesForOrder();
+    }
+
 
     @Override
     public String toString() {
