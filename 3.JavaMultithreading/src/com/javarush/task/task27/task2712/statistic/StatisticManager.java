@@ -1,6 +1,5 @@
 package com.javarush.task.task27.task2712.statistic;
 
-import com.javarush.task.task27.task2712.kitchen.Cook;
 import com.javarush.task.task27.task2712.statistic.event.CookedOrderEventDataRow;
 import com.javarush.task.task27.task2712.statistic.event.EventDataRow;
 import com.javarush.task.task27.task2712.statistic.event.EventType;
@@ -8,13 +7,10 @@ import com.javarush.task.task27.task2712.statistic.event.VideoSelectedEventDataR
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class StatisticManager {
 
     private final StatisticStorage statisticStorage = new StatisticStorage();
-    private final Set<Cook> cooks = new HashSet<>();
 
     private StatisticManager() {
     }
@@ -27,16 +23,8 @@ public class StatisticManager {
         return StatisticManagerHolder.HOLDER_INSTANCE;
     }
 
-    public Set<Cook> getCooks() {
-        return cooks;
-    }
-
     public void register(EventDataRow data) {
         this.statisticStorage.put(data);
-    }
-
-    public void register(Cook cook) {
-        cooks.add(cook);
     }
 
     public Map<String, Long> getProfitFromVideoAd() {
