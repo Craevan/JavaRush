@@ -12,8 +12,12 @@ public class FileStorageStrategy implements StorageStrategy {
     private long bucketSizeLimit = DEFAULT_BUCKET_SIZE_LIMIT;
     long maxBucketSize;
 
-    public FileStorageStrategy() throws IOException {
-        init();
+    public FileStorageStrategy() {
+        try {
+            init();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void init() throws IOException {
