@@ -13,6 +13,18 @@ public class Controller {
     }
 
     public static void main(String[] args) {
+        View gui = new View();
+        Controller controller = new Controller(gui);
+        gui.setController(controller);
+        gui.init();
+        controller.init();
+    }
 
+    public void init(){
+
+    }
+
+    public void exit() {
+        System.exit(0);
     }
 }
