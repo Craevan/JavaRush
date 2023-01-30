@@ -12,6 +12,10 @@ public class Controller {
         this.view = view;
     }
 
+    public HTMLDocument getDocument() {
+        return document;
+    }
+
     public static void main(String[] args) {
         View gui = new View();
         Controller controller = new Controller(gui);
