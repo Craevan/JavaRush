@@ -27,7 +27,7 @@ public class Controller {
         controller.init();
     }
 
-    public void init(){
+    public void init() {
         createNewDocument();
     }
 
@@ -76,9 +76,34 @@ public class Controller {
     }
 
     public void openDocument() {
+        view.selectHtmlTab();
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new HTMLFileFilter());
+        int choice = fileChooser.showOpenDialog(view);
+        if (choice == JFileChooser.APPROVE_OPTION) {
+            resetDocument();
+            view.resetUndo();
+            currentFile = fileChooser.getSelectedFile();
+            view.setTitle(currentFile.getName());
+            try (FileReader reader = new FileReader(currentFile)) {
+                new HTMLEditorKit().read(reader, document, 0);
+            } catch (IOException | BadLocationException e) {
+                ExceptionHandler.log(e);
+            }
+        }
     }
 
     public void saveDocument() {
+        if (currentFile == null) {
+            saveDocumentAs();
+        } else {
+            view.selectHtmlTab();
+            try (FileWriter writer = new FileWriter(currentFile)) {
+                new HTMLEditorKit().write(writer, document, 0, document.getLength());
+            } catch (IOException | BadLocationException e) {
+                ExceptionHandler.log(e);
+            }
+        }
     }
 
     public void saveDocumentAs() {
