@@ -9,7 +9,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 
 public class Controller {
-    private View view;
+    private final View view;
     private HTMLDocument document;
     private File currentFile;
 
@@ -30,7 +30,7 @@ public class Controller {
     }
 
     public void init(){
-
+        createNewDocument();
     }
 
     public void exit() {
@@ -71,6 +71,10 @@ public class Controller {
     }
 
     public void createNewDocument() {
+        view.selectHtmlTab();
+        resetDocument();
+        view.setTitle("JR-HTML-Editor");
+        currentFile = null;
     }
 
     public void openDocument() {
