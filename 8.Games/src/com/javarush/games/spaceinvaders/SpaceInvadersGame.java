@@ -7,7 +7,11 @@ public class SpaceInvadersGame extends Game {
     public static final int HEIGHT = 64;
 
     private void drawField() {
-
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                setCellValueEx(x, y, Color.BLACK, "");
+            }
+        }
     }
 
     private void drawScene() {
@@ -17,7 +21,6 @@ public class SpaceInvadersGame extends Game {
     private void createGame() {
         drawScene();
     }
-
 
     @Override
     public void initialize() {
