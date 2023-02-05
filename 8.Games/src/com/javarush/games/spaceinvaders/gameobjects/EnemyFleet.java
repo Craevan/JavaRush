@@ -4,6 +4,7 @@ import com.javarush.engine.cell.Game;
 import com.javarush.games.spaceinvaders.ShapeMatrix;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class EnemyFleet {
@@ -30,5 +31,23 @@ public class EnemyFleet {
                 ships.add(new EnemyShip(x * STEP, y * STEP + 12));
             }
         }
+    }
+
+    private double getLeftBorder() {
+        return ships.stream()
+                .map(enemyShip -> enemyShip.x)
+                .min(Comparator.comparingDouble(x -> x))
+                .get();
+    }
+
+    private double getRightBorder() {
+        double rigth = 0;
+        for (EnemyShip ship : ships) {
+            double value = ship.x + ship.width;
+            if (value > rigth) {
+                rigth = value;
+            }
+        }
+        return rigth;
     }
 }
