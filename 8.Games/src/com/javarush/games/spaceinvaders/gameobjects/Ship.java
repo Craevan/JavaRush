@@ -8,4 +8,8 @@ public class Ship extends GameObject {
     public void setStaticView(int[][] viewFrame) {
         super.setMatrix(viewFrame);
     }
+
+    public Bullet fire() {
+        return null;
+    }
 }
