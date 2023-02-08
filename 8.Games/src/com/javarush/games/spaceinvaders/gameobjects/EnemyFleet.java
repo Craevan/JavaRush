@@ -49,6 +49,16 @@ public class EnemyFleet {
         }
     }
 
+    public Bullet fire(Game game) {
+        if (ships.size() == 0) {
+            return null;
+        }
+        if (game.getRandomNumber(100 / SpaceInvadersGame.COMPLEXITY) > 0) {
+            return null;
+        }
+        return ships.get(game.getRandomNumber(ships.size())).fire();
+    }
+
     private void createShips() {
         ships = new ArrayList<>();
         for (int x = 0; x < COLUMNS_COUNT; x++) {
