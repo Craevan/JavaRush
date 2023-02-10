@@ -34,6 +34,24 @@ public class PlayerShip extends Ship {
         }
     }
 
+    public void move() {
+        if (!isAlive) {
+            return;
+        }
+        if (direction == Direction.LEFT) {
+            --x;
+        }
+        if (direction == Direction.RIGHT) {
+            ++x;
+        }
+        if (x < 0) {
+            x = 0;
+        }
+        if (x + width > SpaceInvadersGame.WIDTH) {
+            x = SpaceInvadersGame.WIDTH - width;
+        }
+    }
+
     @Override
     public void kill() {
         if (!isAlive) {
