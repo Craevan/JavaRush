@@ -32,6 +32,10 @@ public class Ship extends GameObject {
         isAlive = false;
     }
 
+    public boolean isVisible() {
+        return isAlive || frameIndex < frames.size();
+    }
+
     public void setAnimatedView(int[][]... viewFrames) {
         super.setMatrix(viewFrames[0]);
         frames = Arrays.asList(viewFrames);
