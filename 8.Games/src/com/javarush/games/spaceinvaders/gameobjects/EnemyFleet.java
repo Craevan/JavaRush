@@ -76,6 +76,20 @@ public class EnemyFleet {
         ships.removeIf(enemyShip -> !enemyShip.isVisible());
     }
 
+    public double getBottomBorder() {
+        if (ships != null && !ships.isEmpty()) {
+            return ships.stream()
+                    .map(enemyShip -> enemyShip.y + enemyShip.height)
+                    .max(Comparator.comparingDouble(y -> y))
+                    .get();
+        }
+        return 0.0;
+    }
+
+    public int getShipsCount() {
+        return ships.size();
+    }
+
     private void createShips() {
         ships = new ArrayList<>();
         for (int x = 0; x < COLUMNS_COUNT; x++) {
