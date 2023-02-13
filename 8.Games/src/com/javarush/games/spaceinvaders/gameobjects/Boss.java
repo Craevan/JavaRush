@@ -8,6 +8,7 @@ public class Boss extends EnemyShip {
 
     public Boss(double x, double y) {
         super(x, y);
+        this.score = 100;
         setAnimatedView(true, ShapeMatrix.BOSS_ANIMATION_FIRST, ShapeMatrix.BOSS_ANIMATION_SECOND);
     }
 

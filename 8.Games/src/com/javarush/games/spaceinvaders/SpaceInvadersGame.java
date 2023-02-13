@@ -23,6 +23,7 @@ public class SpaceInvadersGame extends Game {
     private PlayerShip playerShip;
     private boolean isGameStopped;
     private int animationsCount;
+    private int score;
 
     private void drawField() {
         for (int y = 0; y < HEIGHT; y++) {
@@ -44,6 +45,7 @@ public class SpaceInvadersGame extends Game {
     private void createGame() {
         isGameStopped = false;
         animationsCount = 0;
+        score = 0;
         createStars();
         enemyFleet = new EnemyFleet();
         enemyBullets = new ArrayList<>();
@@ -76,7 +78,7 @@ public class SpaceInvadersGame extends Game {
 
     private void check() {
         playerShip.verifyHit(enemyBullets);
-        enemyFleet.verifyHit(playerBullets);
+        score += enemyFleet.verifyHit(playerBullets);
         enemyFleet.deleteHiddenShips();
         removeDeadBullets();
         if (!playerShip.isAlive) {
@@ -118,6 +120,7 @@ public class SpaceInvadersGame extends Game {
     public void onTurn(int step) {
         moveSpaceObjects();
         check();
+        setScore(score);
         Bullet bullet = enemyFleet.fire(this);
         if (bullet != null) {
             enemyBullets.add(bullet);
