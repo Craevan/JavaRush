@@ -8,13 +8,6 @@ public class RacerGame extends Game {
     public static final int CENTER_X = WIDTH / 2;
     public static final int ROADSIDE_WIDTH = 14;
 
-    @Override
-    public void initialize() {
-        showGrid(false);
-        setScreenSize(WIDTH, HEIGHT);
-        createGame();
-    }
-
     private void createGame() {
         drawScene();
     }
@@ -36,5 +29,20 @@ public class RacerGame extends Game {
                 }
             }
         }
+    }
+
+    @Override
+    public void initialize() {
+        showGrid(false);
+        setScreenSize(WIDTH, HEIGHT);
+        createGame();
+    }
+
+    @Override
+    public void setCellColor(final int x, final int y, final Color color) {
+        if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) {
+            return;
+        }
+        super.setCellColor(x, y, color);
     }
 }
