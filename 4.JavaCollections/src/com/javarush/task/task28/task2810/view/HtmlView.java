@@ -8,9 +8,15 @@ import java.util.List;
 public class HtmlView implements View {
     private Controller controller;
 
+
+
+    public void userCitySelectEmulationMethod() {
+        controller.onCitySelect("Odessa");
+    }
+
     @Override
     public void update(final List<Vacancy> vacancies) {
-
+        System.out.println(vacancies.size());
     }
 
     @Override
