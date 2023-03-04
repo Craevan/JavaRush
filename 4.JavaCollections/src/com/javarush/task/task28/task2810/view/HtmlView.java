@@ -3,6 +3,7 @@ package com.javarush.task.task28.task2810.view;
 import com.javarush.task.task28.task2810.Controller;
 import com.javarush.task.task28.task2810.vo.Vacancy;
 
+import java.io.*;
 import java.util.List;
 
 public class HtmlView implements View {
@@ -20,8 +21,12 @@ public class HtmlView implements View {
         return ""; //STUB
     }
 
-    private void updateFile(final String fileName) {
-
+    private void updateFile(final String fileBody) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write(fileBody);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
