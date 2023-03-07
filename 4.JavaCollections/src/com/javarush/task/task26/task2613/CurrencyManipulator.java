@@ -18,4 +18,12 @@ public class CurrencyManipulator {
     public void addAmount(int denomination, int count) {
         denominations.merge(denomination, count, Integer::sum);
     }
+
+    public int getTotalAmount() {
+        int result = 0;
+        for (Map.Entry<Integer, Integer> entry : denominations.entrySet()) {
+            result += entry.getKey() * entry.getValue();
+        }
+        return result;
+    }
 }
