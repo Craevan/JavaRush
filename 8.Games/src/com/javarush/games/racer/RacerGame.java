@@ -15,6 +15,7 @@ public class RacerGame extends Game {
         roadMarking = new RoadMarking();
         player = new PlayerCar();
         drawScene();
+        setTurnTimer(40);
     }
 
     private void drawScene() {
@@ -38,6 +39,10 @@ public class RacerGame extends Game {
         }
     }
 
+    private void moveAll() {
+        roadMarking.move(player.speed);
+    }
+
     @Override
     public void initialize() {
         showGrid(false);
@@ -51,5 +56,11 @@ public class RacerGame extends Game {
             return;
         }
         super.setCellColor(x, y, color);
+    }
+
+    @Override
+    public void onTurn(final int step) {
+        moveAll();
+        drawScene();
     }
 }
