@@ -76,4 +76,12 @@ public class RacerGame extends Game {
                 break;
         }
     }
+
+    @Override
+    public void onKeyReleased(final Key key) {
+        if ((key == Key.RIGHT && player.getDirection() == Direction.RIGHT)
+                || (key == Key.LEFT && player.getDirection() == Direction.LEFT)) {
+            player.setDirection(Direction.NONE);
+        }
+    }
 }
