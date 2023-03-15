@@ -12,7 +12,15 @@ public class RoadManager {
     public static final int LEFT_BORDER = RacerGame.ROADSIDE_WIDTH;
     public static final int RIGHT_BORDER = RacerGame.WIDTH - LEFT_BORDER;
 
-    private List<RoadObject> items = new ArrayList<>();
+    private final List<RoadObject> items = new ArrayList<>();
+
+    public void draw(final Game game) {
+        items.forEach(item -> item.draw(game));
+    }
+
+    public void move(final int boost) {
+        items.forEach(item -> item.move(boost + item.speed));
+    }
 
     private RoadObject createRoadObject(final RoadObjectType type, final int x, final int y) {
         if (type == RoadObjectType.THORN) {
