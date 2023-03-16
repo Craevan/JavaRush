@@ -20,6 +20,7 @@ public class RoadManager {
 
     public void move(final int boost) {
         items.forEach(item -> item.move(boost + item.speed));
+        deletePassedItems();
     }
 
     public void generateNewRoadObjects(final Game game) {
@@ -52,5 +53,9 @@ public class RoadManager {
         if (game.getRandomNumber(100) < 10 && !isThornExists()) {
             addRoadObject(RoadObjectType.THORN, game);
         }
+    }
+
+    private void deletePassedItems() {
+        items.removeIf(roadObject -> roadObject.y >= RacerGame.HEIGHT);
     }
 }
