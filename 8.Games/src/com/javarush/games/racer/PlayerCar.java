@@ -36,4 +36,8 @@ public class PlayerCar extends GameObject {
             x = RoadManager.RIGHT_BORDER - width;
         }
     }
+
+    public void stop() {
+        matrix = ShapeMatrix.PLAYER_DEAD;
+    }
 }
