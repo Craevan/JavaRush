@@ -94,6 +94,14 @@ public class RacerGame extends Game {
             case LEFT:
                 player.setDirection(Direction.LEFT);
                 break;
+            case SPACE:
+                if (isGameStopped) {
+                    createGame();
+                }
+                break;
+            case UP:
+                player.speed = 2;
+                break;
         }
     }
 
@@ -102,6 +110,9 @@ public class RacerGame extends Game {
         if ((key == Key.RIGHT && player.getDirection() == Direction.RIGHT)
                 || (key == Key.LEFT && player.getDirection() == Direction.LEFT)) {
             player.setDirection(Direction.NONE);
+        }
+        if (key == Key.UP) {
+            player.speed = 1;
         }
     }
 }
