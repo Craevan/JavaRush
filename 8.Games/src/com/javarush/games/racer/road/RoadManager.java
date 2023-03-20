@@ -26,6 +26,7 @@ public class RoadManager {
 
     public void generateNewRoadObjects(final Game game) {
         generateThorn(game);
+        generateRegularCar(game);
     }
 
     public boolean checkCrush(final PlayerCar player) {
@@ -35,17 +36,16 @@ public class RoadManager {
     private RoadObject createRoadObject(final RoadObjectType type, final int x, final int y) {
         if (type == RoadObjectType.THORN) {
             return new Thorn(x, y);
+        } else {
+            return new Car(type, x, y);
         }
-        return null;
     }
 
     private void addRoadObject(final RoadObjectType type, final Game game) {
         int x = game.getRandomNumber(FIRST_LANE_POSITION, FOURTH_LANE_POSITION);
         int y = -1 * RoadObject.getHeight(type);
         RoadObject roadObject = createRoadObject(type, x, y);
-        if (roadObject != null) {
-            items.add(roadObject);
-        }
+        items.add(roadObject);
     }
 
     private boolean isThornExists() {
@@ -57,6 +57,13 @@ public class RoadManager {
     private void generateThorn(final Game game) {
         if (game.getRandomNumber(100) < 10 && !isThornExists()) {
             addRoadObject(RoadObjectType.THORN, game);
+        }
+    }
+
+    private void generateRegularCar(final Game game) {
+        int carTypeNumber = game.getRandomNumber(4);
+        if (game.getRandomNumber(100) < 30) {
+            addRoadObject(RoadObjectType.values()[carTypeNumber], game);
         }
     }
 
