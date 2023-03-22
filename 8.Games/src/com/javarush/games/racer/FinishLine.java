@@ -17,4 +17,8 @@ public class FinishLine extends GameObject {
         }
         y += boost;
     }
+
+    public boolean isCrossed(final PlayerCar player) {
+        return y > player.y;
+    }
 }
