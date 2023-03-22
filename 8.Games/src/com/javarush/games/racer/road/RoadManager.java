@@ -15,6 +15,11 @@ public class RoadManager {
     public static final int RIGHT_BORDER = RacerGame.WIDTH - LEFT_BORDER;
 
     private final List<RoadObject> items = new ArrayList<>();
+    private int passedCarsCount = 0;
+
+    public int getPassedCarsCount() {
+        return passedCarsCount;
+    }
 
     public void draw(final Game game) {
         items.forEach(item -> item.draw(game));
@@ -86,7 +91,13 @@ public class RoadManager {
     }
 
     private void deletePassedItems() {
-        items.removeIf(roadObject -> roadObject.y >= RacerGame.HEIGHT);
+        items.removeIf(roadObject -> {
+            boolean removed = roadObject.y >= RacerGame.HEIGHT;
+            if (removed && roadObject.type != RoadObjectType.THORN) {
+                passedCarsCount++;
+            }
+            return removed;
+        });
     }
 
     private boolean isRoadSpaceFree(final RoadObject object) {
