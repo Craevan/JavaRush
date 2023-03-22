@@ -16,6 +16,7 @@ public class RacerGame extends Game {
     private FinishLine finishLine;
     private ProgressBar progressBar;
     private boolean isGameStopped;
+    private int score;
 
     private void createGame() {
         isGameStopped = false;
@@ -24,6 +25,7 @@ public class RacerGame extends Game {
         player = new PlayerCar();
         finishLine = new FinishLine();
         progressBar = new ProgressBar(RACE_GOAL_CARS_COUNT);
+        score = 3500;
         drawScene();
         setTurnTimer(40);
     }
@@ -90,6 +92,8 @@ public class RacerGame extends Game {
 
     @Override
     public void onTurn(final int step) {
+        score -= 5;
+        setScore(score);
         if (roadManager.checkCrush(player)) {
             gameOver();
             drawScene();
