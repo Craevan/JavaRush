@@ -36,11 +36,7 @@ public class RoadObject extends GameObject {
             return false;
         }
 
-        if ((y - distance > roadObject.y + roadObject.height) || (y + height + distance < roadObject.y)) {
-            return false;
-        }
-
-        return true;
+        return (y - distance <= roadObject.y + roadObject.height) && (y + height + distance >= roadObject.y);
     }
 
     /**

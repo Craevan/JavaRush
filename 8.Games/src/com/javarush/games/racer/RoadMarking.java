@@ -7,7 +7,7 @@ import java.util.List;
 
 public class RoadMarking {
 
-    private List<GameObject> roadMarking = new ArrayList<>();
+    private final List<GameObject> roadMarking = new ArrayList<>();
 
     public RoadMarking() {
         for (int i = -4; i <= RacerGame.HEIGHT + 4; i += 8) {
