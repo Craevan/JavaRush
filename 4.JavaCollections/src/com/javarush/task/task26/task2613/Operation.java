@@ -4,5 +4,19 @@ public enum Operation {
     INFO,
     DEPOSIT,
     WITHDRAW,
-    EXIT
+    EXIT;
+
+    public static Operation getAllowableOperationByOrdinal(final Integer i) {
+        switch (i) {
+            case 1:
+                return INFO;
+            case 2:
+                return DEPOSIT;
+            case 3:
+                return WITHDRAW;
+            case 4:
+                return EXIT;
+        }
+        throw new IllegalArgumentException();
+    }
 }

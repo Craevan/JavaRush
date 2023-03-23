@@ -20,6 +20,20 @@ public class ConsoleHelper {
         return "";
     }
 
+    public static Operation askOperation() {
+        Operation operation = null;
+        do {
+            writeMessage("Выберите операцию:");
+            final int choice = Integer.parseInt(readString());
+            try {
+                operation = Operation.getAllowableOperationByOrdinal(choice);
+            } catch (IllegalArgumentException iae) {
+                writeMessage("Введены некорректные данные");
+            }
+        } while (operation == null);
+        return operation;
+    }
+
     public static String askCurrencyCode() {
         String currency;
         do {
